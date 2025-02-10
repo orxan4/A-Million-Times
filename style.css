@@ -1,0 +1,281 @@
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css');
+
+:root {
+    --bezel-size: 50px;
+    --bezel-background-color: white;
+    --bezel-border-width: 0px;
+    --bezel-border-color: rgb(201, 201, 201);
+    --bezel-border-style: solid;
+    --bezel-border-radius: 50%;
+    --bezel-box-shadow: inset -2px 3px 3px #8e8e8e, -3px 4px 3px #8e8e8e;
+    --bezel-gap: 3px;
+
+    --row: 2;
+    --hand-size: 2px;
+    --hand-border-top-radius: 2px;
+    --hand-border-bottom-radius: calc(var(--hand-size) / 2);
+    --hand-box-shadow: 0 0 10px 0px gray;
+    --hand-transition: transform 2s ease-in-out; /* ease */
+
+    --hand-circle-size: calc(var(--hand-size));
+    --hand-circle-top: calc(50% - (var(--hand-circle-size) / 2));
+    --hand-circle-right: calc(50% - (var(--hand-circle-size) / 2));
+    --hand-circle-background-color: black;
+    --hand-circle-box-shadow: 0px 0px 1px 1px rgb(90, 90, 90);
+
+    --hour-hand-bottom: 0;
+    --hour-hand-left: calc(50% - var(--hour-hand-width) / 2);
+    --hour-hand-width: var(--hand-size);
+    --hour-hand-height: calc(var(--bezel-size) / 2 - 8px);
+    --hour-hand-background-color: black;
+
+    --minute-hand-bottom: 0;
+    --minute-hand-left: calc(50% - var(--minute-hand-width) / 2);
+    --minute-hand-width: var(--hand-size);
+    --minute-hand-height: calc(var(--bezel-size) / 2 - 2px);
+    --minute-hand-background-color: black;
+
+    --second-hand-bottom: 0;
+    --second-hand-left: calc(50% - var(--second-hand-width) / 2);
+    --second-hand-width: calc(var(--hand-size) / 2);
+    --second-hand-height: calc(var(--bezel-size) / 2 - 2px);
+    --second-hand-background-color: red;
+    --second-hand-circle-background-color: red;
+
+    --watchNumCol-width-auto: calc(var(--bezel-size) * var(--row) + var(--bezel-gap) * (var(--row) - 1));
+}
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 2rem;
+    background-color: #fff;
+    color: black;
+    height: 100%;
+    transition: all 0.3s ease;
+    border-bottom: 1px solid black;
+    padding: 10px;
+}
+
+body.dark-theme {
+    background-color: #000;
+    filter: invert(1);
+}
+
+#theme {
+    position: fixed;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: 20px;
+    right: 20px;
+    font-size: 30px;
+    cursor: pointer;
+    border: none;
+    background-color: transparent;
+    border-radius: 50%;
+}
+
+section {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 100%;
+    padding: 0px 45px;
+    gap: var(--bezel-gap);
+}
+
+.watchNumCol {
+    display: flex;
+    flex-wrap: wrap;
+    /* justify-content: space-evenly; */
+    gap: var(--bezel-gap);
+    width: var(--watchNumCol-width-auto);
+    /* border: 1px solid; */
+}
+
+.bezel {
+    position: relative;
+    width: var(--bezel-size);
+    height: var(--bezel-size);
+    background-color: var(--bezel-background-color);
+    border: var(--bezel-border);
+    border-width: var(--bezel-border-width);
+    border-color: var(--bezel-border-color);
+    border-style: var(--bezel-border-style);
+    border-radius: var(--bezel-border-radius);
+    box-shadow: var(--bezel-box-shadow);
+    margin: var(--bezel-margin);
+}
+
+.minute-hand-circle {
+    position: absolute;
+    width: var(--hand-circle-size);
+    height: var(--hand-circle-size);
+    border-radius: 50%;
+    top: var(--hand-circle-top);
+    right: var(--hand-circle-right);
+    background-color: var(--hand-circle-background-color);
+    transition: var(--hand-transition);
+    box-shadow: var(--hand-circle-box-shadow);
+
+    transform: rotate(225deg);
+}
+
+.hour-hand-circle {
+    position: absolute;
+    width: var(--hand-circle-size);
+    height: var(--hand-circle-size);
+    border-radius: 50%;
+    top: var(--hand-circle-top);
+    right: var(--hand-circle-right);
+    background-color: var(--hand-circle-background-color);
+    transition: var(--hand-transition);
+    box-shadow: var(--hand-circle-box-shadow);
+
+    transform: rotate(225deg);
+}
+
+.second-hand-circle {
+    position: absolute;
+    width: var(--hand-circle-size);
+    height: var(--hand-circle-size);
+    border-radius: 50%;
+    top: var(--hand-circle-top);
+    right: var(--hand-circle-right);
+    background-color: var(--second-hand-circle-background-color);
+    transition: var(--hand-transition);
+    box-shadow: var(--hand-circle-box-shadow);
+
+    transform: rotate(225deg);
+}
+
+.minute-hand {
+    position: absolute;
+    bottom: var(--minute-hand-bottom);
+    left: var(--minute-hand-left);
+    width: var(--minute-hand-width);
+    height: var(--minute-hand-height);
+    background-color: var(--minute-hand-background-color);
+    box-shadow: var(--hand-box-shadow);
+
+    border-top-left-radius: var(--hand-border-top-radius);
+    border-top-right-radius: var(--hand-border-top-radius);
+    border-bottom-left-radius: var(--hand-border-bottom-radius);
+    border-bottom-right-radius: var(--hand-border-bottom-radius);
+}
+
+.hour-hand {
+    position: absolute;
+    bottom: var(--hour-hand-bottom);
+    left: var(--hour-hand-left);
+    width: var(--hour-hand-width);
+    height: var(--hour-hand-height);
+    background-color: var(--hour-hand-background-color);
+    box-shadow: var(--hand-box-shadow);
+
+    border-top-left-radius: var(--hand-border-top-radius);
+    border-top-right-radius: var(--hand-border-top-radius);
+    border-bottom-left-radius: var(--hand-border-bottom-radius);
+    border-bottom-right-radius: var(--hand-border-bottom-radius);
+}
+
+.second-hand {
+    position: absolute;
+    bottom: var(--second-hand-bottom);
+    left: var(--second-hand-left);
+    width: var(--second-hand-width);
+    height: var(--second-hand-height);
+    background-color: var(--second-hand-background-color);
+    box-shadow: var(--hand-box-shadow);
+
+    border-top-left-radius: var(--hand-border-top-radius);
+    border-top-right-radius: var(--hand-border-top-radius);
+    border-bottom-left-radius: var(--hand-border-bottom-radius);
+    border-bottom-right-radius: var(--hand-border-bottom-radius);
+}
+
+.selects {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    width: 300px;
+}
+
+label {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    font-size: 22px;
+    font-weight: 600;
+}
+
+label span {
+    text-align: end;
+    width: 50%;
+}
+
+.selects label select, .bezel-size {
+    width: 50%;
+    height: 34px;
+    border-radius: 3px;
+    border: 2px solid black;
+    font-size: 24px;
+    background: #000;
+    color: white;
+    padding-left: 8px;
+}
+
+.animationCheckbox {
+    display: flex;
+    justify-content: center;
+    gap: 3px;
+}
+
+.display-clock {
+    display: flex;
+    gap: 12px;
+}
+
+.display-clock p {
+    width: 50%;
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    font-size: 22px;
+    font-weight: 600;
+}
+
+.display-clock .display-checkboxs {
+    display: flex;
+    flex-direction: column;
+    row-gap: 3px;
+    width: 50%;
+}
+
+.display-clock .display-checkboxs span {
+    text-align: start;
+}
+
+.display-clock label {
+    width: 100%;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    font-size: 14px;
+    padding-left: 8px;
+    border: 1px solid black;
+    border-radius: 3px;
+}

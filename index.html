@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <button id="theme" type="button"><i class="fa-solid fa-palette"></i></button>
+
+    <section></section>
+
+    <div class="selects">
+        <label for="bezel-size">
+            <span>Bezel size:</span>
+            <input id="bezel-size" class="bezel-size" type="number">
+        </label>
+
+        <label class="number" for="#number">
+            <span>Number:</span>
+            
+            <select id="number" name="number">
+                <option value='null'>null</option>
+                <option value=0 selected>0</option>
+                <option value=1>1</option>
+                <option value=2>2</option>
+                <option value=3>3</option>
+                <option value=4>4</option>
+                <option value=5>5</option>
+                <option value=6>6</option>
+                <option value=7>7</option>
+                <option value=8>8</option>
+                <option value=9>9</option>
+            </select>
+        </label>
+
+        <label class="size" for="#size">
+            <span>Size:</span>
+            
+            <select id="size" name="size">
+                <option value='1' selected>2x3</option>
+                <option value='2'>3x5</option>
+                <option value='3'>3x6</option>
+                <option value='4'>4x6</option>
+            </select>
+        </label>
+
+        <div class="display-clock">
+            <p>Display Clock:</p>
+            <div class="display-checkboxs">
+                <div>
+                    <label for="checkboxHour" class="checkboxHour">
+                        <span>Hour:</span>
+                        <input type="checkbox" name="hour" id="checkboxHour">
+                    </label>
+                </div>
+
+                <div>
+                    <label for="checkboxMinute" class="checkboxMinute">
+                        <span>Minute:</span>
+                        <input type="checkbox" name="minute" id="checkboxMinute">
+                    </label>
+                </div>
+
+                <div>
+                    <label for="checkboxSecond" class="checkboxSecond">
+                        <span>Second:</span>
+                        <input type="checkbox" name="second" id="checkboxSecond">
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <!-- <label for="animate">
+            <span>Animation</span>
+            <input id="animate" type="checkbox">
+        </label>
+
+        <div class="animationCheckbox">
+            <button class="animate animate1">animation 1</button>
+            <button class="animate animateStop">animation stop</button>
+        </div> -->
+    </div>
+
+    <script type="module" src="script.js"></script>
+</body>
+</html>
