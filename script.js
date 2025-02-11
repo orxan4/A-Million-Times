@@ -1,5 +1,11 @@
 import watchesNumber, { _2x3, _3x5, _3x6, _4x6 } from "./handdegrees.js";
 
+let intervalId;
+let firstAnimation = 0;
+let animationSetIntervalTime = 1000;
+let showClockSetIntervalTime = 3000;
+let hand_transition = document.documentElement.style;
+
 const rootStyles = getComputedStyle(document.documentElement);
 const container = document.querySelector("section");
 const numberSelect = document.querySelector("select[name='number']");
@@ -10,9 +16,7 @@ const bezelSizeInput = document.querySelector(".bezel-size");
 const checkboxHour = document.getElementById("checkboxHour");
 const checkboxMinute = document.getElementById("checkboxMinute");
 const checkboxSecond = document.getElementById("checkboxSecond");
-const checkboxHourLabel = document.querySelector('.checkboxHour');
-const checkboxMinuteLabel = document.querySelector('.checkboxMinute');
-const checkboxSecondLabel = document.querySelector('.checkboxSecond');
+const checkboxAnimate = document.getElementById("checkboxAnimate");
 
 const bezelSizeValue = parseInt(rootStyles.getPropertyValue("--bezel-size"), 10);
 bezelSizeInput.value = bezelSizeValue;
@@ -29,6 +33,83 @@ const bezelHTML = `
         <div class="second-hand-circle"><div class="second-hand"></div></div>
     </div>
 `;
+// test 1
+let changeFunction = () => {
+    firstAnimation++
+    const watchNumColumns = document.querySelectorAll(".watchNumCol");
+
+    watchNumColumns.forEach((elementWatchNumColumns, index) => {
+        const bezels = elementWatchNumColumns.querySelectorAll(".bezel");
+
+        bezels.forEach((bezel, i) => {
+            const minute = bezel.querySelector(".minute-hand-circle");
+            const hour = bezel.querySelector(".hour-hand-circle");
+            const second = bezel.querySelector(".second-hand-circle");
+
+            const minuteStyle = minute.style;
+            const hourStyle = hour.style;
+            const secondStyle = second.style;
+
+            const minuteRotate = Number(minuteStyle.transform.replace('rotate(', '').replace('deg)', ''));
+            const hourRotate = Number(hourStyle.transform.replace('rotate(', '').replace('deg)', ''));
+            const secondRotate = Number(secondStyle.transform.replace('rotate(', '').replace('deg)', ''));
+
+            let minDeg = 0;
+            let hourDeg = 0;
+            let secDeg = 0;
+
+            if (firstAnimation === 1) {
+                minDeg = 225;
+                hourDeg = 45;
+                secDeg = 225;
+            } else {
+                minDeg = minuteRotate + 20;
+                hourDeg = hourRotate + 20;
+                secDeg = secondRotate + 20;
+            }
+
+            minute.style.transform = `rotate(${minDeg}deg)`;
+            hour.style.transform = `rotate(${hourDeg}deg)`;
+            second.style.transform = `rotate(${secDeg}deg)`;
+        });
+    });
+};
+
+// test 2
+const stopAnimationBackRotationHands = () => {
+    const watchNumColumns = document.querySelectorAll(".watchNumCol");
+
+    watchNumColumns.forEach((elementWatchNumColumns, index) => {
+        const bezels = elementWatchNumColumns.querySelectorAll(".bezel");
+
+        bezels.forEach((bezel, i) => {
+            const minute = bezel.querySelector(".minute-hand-circle");
+            const hour = bezel.querySelector(".hour-hand-circle");
+            const second = bezel.querySelector(".second-hand-circle");
+
+            const minuteStyle = minute.style;
+            const hourStyle = hour.style;
+            const secondStyle = second.style;
+
+            const minuteRotate = Number(minuteStyle.transform.replace('rotate(', '').replace('deg)', ''));
+            const hourRotate = Number(hourStyle.transform.replace('rotate(', '').replace('deg)', ''));
+            const secondRotate = Number(secondStyle.transform.replace('rotate(', '').replace('deg)', ''));
+
+            function normalizeAngle(angle) {
+                return ((angle % 360) + 360) % 360;
+            }
+ 
+            const minDeg = normalizeAngle(minuteRotate);
+            const hourDeg = normalizeAngle(hourRotate);
+            const secDeg = normalizeAngle(secondRotate);
+
+            hand_transition.setProperty('--hand-transition', 'transform 0s linear');
+            minute.style.transform = `rotate(${minDeg}deg)`;
+            hour.style.transform = `rotate(${hourDeg}deg)`;
+            second.style.transform = `rotate(${secDeg}deg)`;
+        });
+    });
+};
 
 const updateClockHands = () => {
     const watchNumColumns = document.querySelectorAll(".watchNumCol");
@@ -102,9 +183,34 @@ const displayOrHideClock = (event) => {
     changeSize();
 };
 
-// Initialize
+const animationCheckbox = (event) => {
+    const checked = event.target.checked;
+
+    if (checked) {
+        const startSecond = 5
+        hand_transition.setProperty('--hand-transition', `transform ${startSecond}s linear`);
+
+        clearInterval(intervalId);
+        intervalId = null;
+
+        changeFunction();
+        setTimeout(() => {
+            intervalId = setInterval(changeFunction, animationSetIntervalTime);
+        }, startSecond * 1000);
+    } else {
+        clearInterval(intervalId);
+        intervalId = null;
+        stopAnimationBackRotationHands()
+        setTimeout(() => {
+            intervalId = setInterval(updateClockHands, showClockSetIntervalTime);
+            hand_transition.setProperty('--hand-transition', 'transform 2s ease-in-out');
+        }, 500);
+        firstAnimation = 0;
+    }
+}
+
 changeSize();
-setInterval(updateClockHands, 5000);
+intervalId = setInterval(updateClockHands, showClockSetIntervalTime);
 
 sizeSelect.addEventListener("change", changeSize);
 numberSelect.addEventListener("change", updateClockHands);
@@ -113,3 +219,4 @@ bezelSizeInput.addEventListener("change", changeBezelSize);
 checkboxHour.addEventListener("change", displayOrHideClock);
 checkboxMinute.addEventListener("change", displayOrHideClock);
 checkboxSecond.addEventListener("change", displayOrHideClock);
+checkboxAnimate.addEventListener("change", animationCheckbox);

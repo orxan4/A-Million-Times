@@ -19,8 +19,7 @@
 
         <label class="number" for="#number">
             <span>Number:</span>
-            
-            <select id="number" name="number">
+            <select id="number" name="number" disabled>
                 <option value='null'>null</option>
                 <option value=0 selected>0</option>
                 <option value=1>1</option>
@@ -37,7 +36,6 @@
 
         <label class="size" for="#size">
             <span>Size:</span>
-            
             <select id="size" name="size">
                 <option value='1' selected>2x3</option>
                 <option value='2'>3x5</option>
@@ -66,21 +64,18 @@
                 <div>
                     <label for="checkboxSecond" class="checkboxSecond">
                         <span>Second:</span>
-                        <input type="checkbox" name="second" id="checkboxSecond">
+                        <input type="checkbox" name="second" id="checkboxSecond" checked>
                     </label>
                 </div>
             </div>
         </div>
 
-        <!-- <label for="animate">
-            <span>Animation</span>
-            <input id="animate" type="checkbox">
+        <label for="checkboxAnimate" class="animate-label">
+            <span>Animation:</span>
+            <div class="checkboxAnimate">
+                <input id="checkboxAnimate" type="checkbox">
+            </div>
         </label>
-
-        <div class="animationCheckbox">
-            <button class="animate animate1">animation 1</button>
-            <button class="animate animateStop">animation stop</button>
-        </div> -->
     </div>
 
     <script type="module" src="script.js"></script>
